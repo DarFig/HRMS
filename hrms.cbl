@@ -356,6 +356,7 @@
            CLOSE EMPFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -713,7 +714,7 @@
            GO TO MAIN-PARA.
 
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. EMP.
+       PROGRAM-ID. EMPWRITE.
 
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
@@ -1326,6 +1327,8 @@
            GO TO MAIN-PARA.
 
 
-       END PROGRAM EMP.
+
+
+       END PROGRAM EMPWRITE.
        END PROGRAM EMPREAD.
        END PROGRAM MAINHRMS.
