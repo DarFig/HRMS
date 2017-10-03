@@ -277,6 +277,7 @@
        77 DES   PIC X(6).
        77 GR    PIC 99.
        77 CHOICE PIC 99.
+       77 ENTER PIC X.
 
        PROCEDURE DIVISION.
        MAIN-PARA.
@@ -356,7 +357,7 @@
            CLOSE EMPFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
-
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -374,6 +375,7 @@
            CLOSE LEAVEFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -393,6 +395,7 @@
            CLOSE BRANCHFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -414,6 +417,7 @@
            DISPLAY ' '.
            DISPLAY ' '.
            DISPLAY "PRESS ENTER TO RETURN TO HRMS READ MENU".
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -430,6 +434,7 @@
            CLOSE DEPARTMENTFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -460,6 +465,7 @@
            CLOSE REVISIONFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -544,6 +550,7 @@
            CLOSE PAYMENTFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -561,6 +568,7 @@
            CLOSE CONFIRMATIONFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -581,6 +589,7 @@
            DISPLAY ' '.
            DISPLAY ' '.
            DISPLAY "PRESS ENTER TO RETURN TO HRMS READ MENU".
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -598,6 +607,7 @@
            CLOSE TRANSFERFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -629,6 +639,7 @@
            CLOSE EMPPERSONALFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -638,6 +649,7 @@
            DISPLAY "INVALID CODE" LINE 12 COL 30.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -647,6 +659,7 @@
            DISPLAY "INVALID CODE" LINE 12 COL 30.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -656,6 +669,7 @@
            DISPLAY "INVALID CODE" LINE 12 COL 30.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -665,6 +679,7 @@
            DISPLAY "INVALID CODE" LINE 12 COL 30.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -674,6 +689,7 @@
            DISPLAY "INVALID CODE" LINE 12 COL 30.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -683,6 +699,7 @@
            DISPLAY "INVALID CODE" LINE 12 COL 30.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -692,6 +709,7 @@
            DISPLAY "INVALID CODE" LINE 12 COL 30.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -701,6 +719,7 @@
            DISPLAY "INVALID CODE" LINE 12 COL 30.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
@@ -710,6 +729,7 @@
            DISPLAY "INVALID CODE" LINE 12 COL 30.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
+           ACCEPT ENTER LINE 20 COL 50.
            STOP ' '.
            GO TO MAIN-PARA.
 
