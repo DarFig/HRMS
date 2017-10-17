@@ -13,7 +13,8 @@
            DISPLAY "*************************" LINE 7 COL 15.
            DISPLAY "1. HRMS WRITE" LINE 10 COL 25.
            DISPLAY "2. HRMS READ" LINE 12 COL 25.
-           DISPLAY "3. EXIT" LINE 14 COL 25.
+           DISPLAY "3. LIST BRANCH FILE" LINE 14 COL 25.
+           DISPLAY "4. EXIT" LINE 16 COL 25.
            DISPLAY "ENTER YOUR CHOICE :" LINE 16 COL 25.
            ACCEPT CHOICE LINE 16 COL 46.
            IF CHOICE = 1
@@ -26,7 +27,12 @@
                 CANCEL "EMPREAD"
                 GO TO MAIN-PARA
              ELSE
-                STOP RUN.
+               IF CHOICE = 3
+                   CALL "EMPBRANCHLIST"
+                   CANCEL "EMPBRANCHLIST"
+                   GO TO MAIN-PARA
+               ELSE
+                 STOP RUN.
 
        IDENTIFICATION DIVISION.
        PROGRAM-ID. EMPREAD.
@@ -47,8 +53,8 @@
            FILE STATUS IS FSL.
 
            SELECT BRANCHFILE ASSIGN TO DISK
-           ORGANIZATION IS INDEXED
-           ACCESS MODE IS DYNAMIC
+           ORGANIZATION IS SEQUENTIAL
+           ACCESS MODE IS SEQUENTIAL
            RECORD KEY IS BBRID
            FILE STATUS IS FSB.
 
@@ -277,6 +283,7 @@
        77 DES   PIC X(6).
        77 GR    PIC 99.
        77 CHOICE PIC 99.
+       77 IID   PIC X(6).
        77 ENTER PIC X.
 
        PROCEDURE DIVISION.
@@ -396,25 +403,29 @@
            STOP ' '.
            GO TO MAIN-PARA.
 
-        BRANCH-PARA.
+       BRANCH-PARA.
            DISPLAY " " WITH BLANK SCREEN.
            OPEN INPUT BRANCHFILE.
            DISPLAY " BRANCH CODE :".
-           ACCEPT BBRID.
+           ACCEPT IID.
            DISPLAY " " WITH BLANK SCREEN.
-           READ BRANCHFILE INVALID KEY GO TO ERROR-BRANCH-PARA.
-           DISPLAY " BRANCH CODE    :" LINE 1 COL 1.
-           DISPLAY BBRID LINE 1 COL 20.
-           DISPLAY " BRANCH NAME    :" LINE 2 COL 1.
-           DISPLAY BBRNAME LINE 2 COL 20.
-           DISPLAY " BRANCH ADDRESS :" LINE 3 COL 1.
-           DISPLAY BBRADD LINE 3 COL 20.
-           DISPLAY " PHONE          :" LINE 4 COL 1.
-           DISPLAY BBRPH LINE 4 COL 20.
-           DISPLAY " E-MAIL         :" LINE 5 COL 1.
-           DISPLAY BEMAIL LINE 5 COL 20.
-           DISPLAY " MANAGER NAME   :" LINE 6 COL 1.
-           DISPLAY BMGRNAME LINE 6 COL 20.
+           PERFORM BRANCH-READ-IT UNTIL FSB = 10.
+       BRANCH-READ-IT.
+           READ BRANCHFILE RECORD.
+           IF BBRID = IID
+               DISPLAY " BRANCH CODE    :" LINE 1 COL 1.
+               DISPLAY BBRID LINE 1 COL 20.
+               DISPLAY " BRANCH NAME    :" LINE 2 COL 1.
+               DISPLAY BBRNAME LINE 2 COL 20.
+               DISPLAY " BRANCH ADDRESS :" LINE 3 COL 1.
+               DISPLAY BBRADD LINE 3 COL 20.
+               DISPLAY " PHONE          :" LINE 4 COL 1.
+               DISPLAY BBRPH LINE 4 COL 20.
+               DISPLAY " E-MAIL         :" LINE 5 COL 1.
+               DISPLAY BEMAIL LINE 5 COL 20.
+               DISPLAY " MANAGER NAME   :" LINE 6 COL 1.
+               DISPLAY BMGRNAME LINE 6 COL 20.
+       BRANCH-EXIT-P.
            CLOSE BRANCHFILE.
            DISPLAY
              "PRESS ENTER TO RETURN TO HRMS READ MENU" LINE 20 COL 10.
@@ -822,9 +833,8 @@
            FILE STATUS IS FSL.
 
            SELECT BRANCHFILE ASSIGN TO DISK
-           ORGANIZATION IS INDEXED
-           ACCESS MODE IS DYNAMIC
-           RECORD KEY IS BBRID
+           ORGANIZATION IS SEQUENTIAL
+           ACCESS MODE IS SEQUENTIAL
            FILE STATUS IS FSB.
 
            SELECT DESIGNATIONFILE ASSIGN TO DISK
@@ -1161,21 +1171,21 @@
 
        BRANCH-PARA.
            DISPLAY " " WITH BLANK SCREEN.
-           OPEN I-O BRANCHFILE.
+           OPEN EXTEND BRANCHFILE.
            IF FSB = 35
               OPEN OUTPUT BRANCHFILE.
            DISPLAY "ENTER BRANCH CODE :" LINE 1 COL 1.
-           ACCEPT BBRID LINE 1 COL 35.
            DISPLAY "ENTER BRANCH NAME :" LINE 2 COL 1.
-           ACCEPT BBRNAME LINE 2 COL 35.
            DISPLAY "ENTER BRANCH ADDRESS :" LINE 3 COL 1.
-           ACCEPT BBRADD LINE 3 COL 35.
            DISPLAY "ENTER PHONE :" LINE 4 COL 1.
-           ACCEPT BBRPH LINE 4 COL 35.
            DISPLAY "ENTER E-MAIL :" LINE 5 COL 1.
-           ACCEPT BEMAIL LINE 5 COL 35.
-           DISPLAY "ENTER MANAGER NAME :" LINE 5 COL 1.
-           ACCEPT BMGRNAME LINE 5 COL 35.
+           DISPLAY "ENTER MANAGER NAME :" LINE 6 COL 1.
+           ACCEPT BBRID LINE 1 COL 30 WITH UNDERLINE.
+           ACCEPT BBRNAME LINE 2 COL 30 WITH UNDERLINE.
+           ACCEPT BBRADD LINE 3 COL 30 WITH UNDERLINE.
+           ACCEPT BBRPH LINE 4 COL 30 WITH UNDERLINE.
+           ACCEPT BEMAIL LINE 5 COL 30 WITH UNDERLINE.
+           ACCEPT BMGRNAME LINE 6 COL 30 WITH UNDERLINE.
            WRITE BRANCHREC.
            CLOSE BRANCHFILE.
            GO TO MAIN-PARA.
@@ -1417,9 +1427,105 @@
            CLOSE EMPPERSONALFILE.
            GO TO MAIN-PARA.
 
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. EMPBRANCHLIST.
 
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT BRANCHFILE ASSIGN TO DISK
+           ORGANIZATION IS SEQUENTIAL
+           ACCESS MODE IS SEQUENTIAL
+           FILE STATUS IS FSB.
 
+       DATA DIVISION.
+       FILE SECTION.
 
+       FD BRANCHFILE
+           LABEL RECORDS ARE STANDARD
+           VALUE OF FILE-ID IS "BRANCH.DAT".
+       01 BRANCHREC.
+           02 BBRID    PIC X(6).
+           02 BBRNAME  PIC X(15).
+           02 BBRADD   PIC X(30).
+           02 BBRPH    PIC X(10).
+           02 BEMAIL   PIC X(20).
+           02 BMGRNAME PIC X(25).
+
+       WORKING-STORAGE SECTION.
+       77 FSB PIC XX.
+       77 CITY PIC X(10).
+       77 CTT PIC X(10).
+       77 BBR PIC X(6).
+       77 ACTS PIC 9999 VALUE 0101.
+       77 ACT PIC 9999 VALUE 0135.
+       77 SHOW PIC 9 VALUE 0.
+       77 ENTER PIC X.
+
+       PROCEDURE DIVISION.
+       MAIN-PARA.
+           GO TO BRANCH-PARA.
+
+       BRANCH-PARA.
+           DISPLAY " " WITH BLANK SCREEN.
+           OPEN INPUT BRANCHFILE.
+           DISPLAY "CITY NAME: ".
+           ACCEPT CITY.
+           DISPLAY " " WITH BLANK SCREEN.
+           PERFORM BRANCH-READ-IN UNTIL FSB = 10.
+       BRANCH-READ-IN.
+           PERFORM BRANCH-READ-PARA UNTIL FSB = 10 OR SHOW = 3.
+           DISPLAY "PREESS TO SEE MORE" AT ACTS.
+           ADD 45 TO ACTS.
+           ACCEPT ENTER AT ACTS.
+           DISPLAY " " WITH BLANK SCREEN.
+           MOVE 0 TO SHOW.
+           MOVE 0101 TO ACTS.
+           MOVE 0135 TO ACT.
+       BRANCH-READ-PARA.
+           READ BRANCHFILE RECORD AT END GO TO BRANCH-EXIT.
+           *>no hay ciudad hay que cambiarlo o algo
+           IF CITY = ""
+               ADD 1 TO SHOW
+               DISPLAY " BRANCH CODE    :" AT ACTS
+               DISPLAY BBRID AT ACT
+               ADD 100 TO ACT
+               ADD 100 TO ACTS
+               DISPLAY " BRANCH NAME    :" AT ACTS
+               DISPLAY BBRNAME AT ACT
+               ADD 100 TO ACT
+               ADD 100 TO ACTS
+               DISPLAY " BRANCH ADDRESS :" AT ACTS
+               DISPLAY BBRADD AT ACT
+               ADD 100 TO ACT
+               ADD 100 TO ACTS
+               DISPLAY " PHONE          :" AT ACTS
+               DISPLAY BBRPH AT ACT
+               ADD 100 TO ACT
+               ADD 100 TO ACTS
+               DISPLAY " E-MAIL         :" AT ACTS
+               DISPLAY BEMAIL AT ACT
+               ADD 100 TO ACT
+               ADD 100 TO ACTS
+               DISPLAY " MANAGER NAME   :" AT ACTS
+               DISPLAY BMGRNAME AT ACT
+               ADD 100 TO ACT
+               ADD 100 TO ACTS
+               DISPLAY "------" AT ACTS
+               ADD 100 TO ACT
+               ADD 100 TO ACTS
+           ELSE
+               DISPLAY " " LINE 1 COl 50.
+       BRANCH-EXIT.
+           CLOSE BRANCHFILE.
+           DISPLAY " ".
+           DISPLAY "PRESS ENTER TO RETURN TO HRMS MENU" AT ACTS.
+           ADD 45 TO ACTS.
+           ACCEPT ENTER AT ACTS.
+           STOP ' '.
+           EXIT PROGRAM.
+
+       END PROGRAM EMPBRANCHLIST.
        END PROGRAM EMPWRITE.
        END PROGRAM EMPREAD.
        END PROGRAM MAINHRMS.
