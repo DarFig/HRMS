@@ -15,8 +15,8 @@
            DISPLAY "2. HRMS READ" LINE 12 COL 25.
            DISPLAY "3. LIST BRANCH FILE" LINE 14 COL 25.
            DISPLAY "4. EXIT" LINE 16 COL 25.
-           DISPLAY "ENTER YOUR CHOICE :" LINE 16 COL 25.
-           ACCEPT CHOICE LINE 16 COL 46.
+           DISPLAY "ENTER YOUR CHOICE :" LINE 18 COL 25.
+           ACCEPT CHOICE LINE 18 COL 46.
            IF CHOICE = 1
               CALL "EMPWRITE"
               CANCEL "EMPWRITE"
@@ -1454,13 +1454,15 @@
 
        WORKING-STORAGE SECTION.
        77 FSB PIC XX.
-       77 CITY PIC X(10).
+       77 CITY PIC X(20).
        77 CTT PIC X(10).
        77 BBR PIC X(6).
        77 ACTS PIC 9999 VALUE 0101.
        77 ACT PIC 9999 VALUE 0135.
        77 SHOW PIC 9 VALUE 0.
        77 ENTER PIC X.
+       77 LONG PIC 9(2).
+       77 CONT PIC 9 VALUE 0.
 
        PROCEDURE DIVISION.
        MAIN-PARA.
@@ -1515,7 +1517,44 @@
                ADD 100 TO ACT
                ADD 100 TO ACTS
            ELSE
-               DISPLAY " " LINE 1 COl 50.
+               INSPECT CITY CONVERTING "abcdefghijklmnñopqrstuvwxyz"
+                   TO "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+               INSPECT BBRADD CONVERTING "abcdefghijklmnñopqrstuvwxyz"
+                   TO "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+               INSPECT CITY TALLYING LONG FOR CHARACTERS BEFORE "  "
+               INSPECT BBRADD TALLYING CONT FOR ALL CITY(1:LONG).
+               IF CONT > 0
+                   ADD 1 TO SHOW
+                   DISPLAY " BRANCH CODE    :" AT ACTS
+                   DISPLAY BBRID AT ACT
+                   ADD 100 TO ACT
+                   ADD 100 TO ACTS
+                   DISPLAY " BRANCH NAME    :" AT ACTS
+                   DISPLAY BBRNAME AT ACT
+                   ADD 100 TO ACT
+                   ADD 100 TO ACTS
+                   DISPLAY " BRANCH ADDRESS :" AT ACTS
+                   DISPLAY BBRADD AT ACT
+                   ADD 100 TO ACT
+                   ADD 100 TO ACTS
+                   DISPLAY " PHONE          :" AT ACTS
+                   DISPLAY BBRPH AT ACT
+                   ADD 100 TO ACT
+                   ADD 100 TO ACTS
+                   DISPLAY " E-MAIL         :" AT ACTS
+                   DISPLAY BEMAIL AT ACT
+                   ADD 100 TO ACT
+                   ADD 100 TO ACTS
+                   DISPLAY " MANAGER NAME   :" AT ACTS
+                   DISPLAY BMGRNAME AT ACT
+                   ADD 100 TO ACT
+                   ADD 100 TO ACTS
+                   DISPLAY "------" AT ACTS
+                   ADD 100 TO ACT
+                   ADD 100 TO ACTS
+           END-IF.
+               MOVE 0 TO CONT.
+               MOVE 00 TO LONG.
        BRANCH-EXIT.
            CLOSE BRANCHFILE.
            DISPLAY " ".
